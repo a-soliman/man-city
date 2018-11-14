@@ -26,7 +26,7 @@
     "d3-ease": "^1.0.3",
     "express": "4.15.4",
     "extract-text-webpack-plugin": "3.0.0",
-    "firebase": "^5.0.4",
+    "firebase": "^4.2.0",
     "history": "4.7.2",
     "moment": "2.18.1",
     "node-sass": "4.5.3",
