@@ -1,5 +1,6 @@
 import React from 'react';
 import Stripes from './Stripes';
+import Text from './Text';
 
 
 const Featured = () => {
@@ -7,6 +8,7 @@ const Featured = () => {
         <div className='featured_wrapper'>
             Featured
             <Stripes />
+            <Text />
         </div>
     );
 };
