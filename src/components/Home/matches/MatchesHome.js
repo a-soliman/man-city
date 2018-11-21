@@ -1,8 +1,9 @@
 import React from 'react';
 
+import Blocks from './Blocks';
 import { Tag } from '../../ui/misc';
 
-const MatchesHome = () => {
+const MatchesHome = (props) => {
     return (
         <div className="home_matches_wrapper">
             <div className="container">
@@ -14,7 +15,7 @@ const MatchesHome = () => {
                     Matches
                 </Tag>
 
-                BLOCK
+                <Blocks />
 
                 <Tag
                     link={true}
@@ -29,5 +30,6 @@ const MatchesHome = () => {
         </div>
     );
 };
+
 
 export default MatchesHome;
