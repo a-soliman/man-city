@@ -37,3 +37,22 @@ export const firebaseLooper = (snapshot) => {
     });
     return data;
 };
+
+export const validate = (element) => {
+    let error = [true, ''];
+
+    if ( element.validation.email ) {
+        const re = /\S+@\S+\.\S+/;
+        const valid = re.test(element.value);
+        const message = `${!valid ? 'Must be a valid email': ''}`;
+        error = !valid ? [valid, message]: error;
+    };
+
+    if ( element.validation.required ) {
+        const valid = element.value.trim() !== '';
+        const message = `${!valid ? 'this field is required': ''}`;
+        error = !valid ? [valid, message]: error;
+    }
+    return error;
+
+}
