@@ -1,7 +1,8 @@
 import React from 'react';
 import { Router, Route, Switch, Link, NavLink } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
-import DashboardPage from '../components/DashboardPage';
+import DashboardPage from '../components/admin/DashboardPage';
+import Matches from '../components/admin/Matches';
 import NotFoundPage from '../components/NotFoundPage';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -17,9 +18,10 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
-        <PublicRoute path="/" component={Home} exact={true} />
+        <Route path="/" component={Home} exact={true} />
         <PublicRoute path="/login" component={LoginPage} exact={true} />
-        <PrivateRoute path="/dashboard" component={DashboardPage} />
+        <PrivateRoute path="/admin" component={DashboardPage} />
+        <PrivateRoute path="/admin_matches" component={Matches} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
