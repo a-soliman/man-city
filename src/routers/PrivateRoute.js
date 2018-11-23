@@ -14,7 +14,7 @@ export const PrivateRoute = ({
           <Component {...props} />
         </div>
       ) : (
-          <Redirect to="/dashboard" />
+          <Redirect to="/login" />
         )
     )} />
   );
