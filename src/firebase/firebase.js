@@ -14,5 +14,6 @@ firebase.initializeApp(config);
 const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 const firebaseMatches = database.ref('matches');
+const firebasePromotions = database.ref('promotions');
 
-export { firebaseMatches, firebase, googleAuthProvider, database as default };
+export { firebaseMatches, firebasePromotions, firebase, googleAuthProvider, database as default };
