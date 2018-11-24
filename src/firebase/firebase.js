@@ -15,5 +15,6 @@ const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 const firebaseMatches = database.ref('matches');
 const firebasePromotions = database.ref('promotions');
+const firebaseTeams = database.ref('teams');
 
-export { firebaseMatches, firebasePromotions, firebase, googleAuthProvider, database as default };
+export { firebaseMatches, firebasePromotions, firebaseTeams, firebase, googleAuthProvider, database as default };
