@@ -22,6 +22,7 @@ const AppRouter = () => (
         <Route path="/" component={Home} exact={true} />
         <PublicRoute path="/login" component={LoginPage} exact={true} />
         <PrivateRoute path="/admin" component={DashboardPage} />
+        <PrivateRoute path="/admin_matches/edit_match/" component={AddEditMatch} />
         <PrivateRoute path="/admin_matches/edit_match/:id" component={AddEditMatch} />
         <PrivateRoute path="/admin_matches" component={Matches} />
         <Route component={NotFoundPage} />
