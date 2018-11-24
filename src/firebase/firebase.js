@@ -12,9 +12,19 @@ const config = {
 firebase.initializeApp(config);
 
 const database = firebase.database();
+const firebaseStorage = firebase.storage();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 const firebaseMatches = database.ref('matches');
 const firebasePromotions = database.ref('promotions');
 const firebaseTeams = database.ref('teams');
+const firebasePlayers = database.ref('players');
 
-export { firebaseMatches, firebasePromotions, firebaseTeams, firebase, googleAuthProvider, database as default };
+export { 
+  firebaseMatches, 
+  firebasePromotions, 
+  firebaseTeams, 
+  firebasePlayers,
+  firebase,
+  firebaseStorage,
+   googleAuthProvider, 
+  database as default };
