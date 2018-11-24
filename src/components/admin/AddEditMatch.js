@@ -181,9 +181,54 @@ class AddEditMatch extends Component {
         });
     };
 
+    successForm = (message) => {
+        this.setState({
+            formSuccess: message
+        });
+
+        setTimeout(() => {
+            this.setState({ formSuccess: '' });
+            this.props.history.push('/admin_matches');
+        }, 1000)
+    }
+
     onFormSubmit = (event) => {
         event.preventDefault();
-        console.log('submit clicked..')
+        let dataToSubmit = {};
+        let formIsValid = true;
+
+        for ( let key in this.state.formData ) {
+            dataToSubmit[key] = this.state.formData[key].value;
+            formIsValid = this.state.formData[key].valid && formIsValid;
+        }
+
+        // add the thumbnail
+        this.state.teams.forEach(team => {
+            if ( team.shortName === dataToSubmit.local ) {
+                dataToSubmit['localThmb'] = team.thmb
+            }
+            if ( team.shortName === dataToSubmit.away ) {
+                dataToSubmit['awayThmb'] = team.thmb
+            }
+        });
+
+        if ( formIsValid ) {
+            if ( this.state.formType === 'Edit Match' ) {
+                database.ref(`matches/${this.state.matchId}`)
+                    .update(dataToSubmit).then(() => {
+                        this.successForm('Updated successfully!');
+
+                    }).catch(e => {
+                        this.setState({ formError: true });
+                    });
+            } else {
+                // Add Match
+            }
+        } else {
+            this.setState({
+                formError: true
+            });
+        }
     }
 
     updateFields = (match, teamOptions, teams, formType, matchId) => {
