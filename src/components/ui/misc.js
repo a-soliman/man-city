@@ -41,7 +41,7 @@ export const firebaseLooper = (snapshot) => {
 export const validate = (element) => {
     let error = [true, ''];
 
-    if ( element.validation.email ) {
+    if ( element.validation && element.validation.email ) {
         const re = /\S+@\S+\.\S+/;
         const valid = re.test(element.value);
         const message = `${!valid ? 'Must be a valid email': ''}`;
