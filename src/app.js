@@ -32,7 +32,7 @@ firebase.auth().onAuthStateChanged((user) => {
     store.dispatch(login(user.uid));
     renderApp();
     if (history.location.pathname === '/login') {
-      history.push('/dashboard');
+      history.push('/admin');
     }
   } else {
     console.log('no user');
