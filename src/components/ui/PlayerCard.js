@@ -6,7 +6,7 @@ const PlayerCard = ({ number, name, lastname, bck }) => {
             <div 
                 className="player_card_thmb"
                 style={{
-                    background:`#f2f9ff ${bck}`
+                    background:`#f2f9ff url(${bck})`
                 }}
             ></div>
             <div className="player_card_nfo">
