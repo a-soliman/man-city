@@ -3,7 +3,7 @@ import AdminLayout from '../../Hoc/adminlayout';
 import FormField from '../../ui/formFields';
 import { validate } from '../../ui/misc';
 import FileUploaderComponent from '../../ui/FileUploaderComponent';
-import database, { firebasePlayers }  from '../../../firebase/firebase';
+import database, { firebasePlayers, firebaseStorage }  from '../../../firebase/firebase';
 import { firebaseLooper } from '../../ui/misc';
 
 class AddEditPlayers extends Component {
@@ -87,9 +87,24 @@ class AddEditPlayers extends Component {
                 validation: {
                     required: true
                 },
-                valid: true
+                valid: false
             }
         }
+    };
+
+    updateFields = (player, playerId, formType, defaultImg) => {
+        const newFormData = {...this.state.formData};
+        for( let key in newFormData ) {
+            newFormData[key].value = player[key];
+            newFormData[key].valid = true;
+        }
+
+        this.setState({
+            playerId,
+            defaultImg,
+            formType,
+            formData: newFormData
+        });
     };
 
     componentDidMount = () => {
@@ -98,8 +113,32 @@ class AddEditPlayers extends Component {
         if ( !playerId ) {
             this.setState({ formType: 'Add player' });
         } else {
-            this.setState({ formData: 'Edit player' });
+            database.ref(`players/${playerId}`).once('value')
+                .then(snapshot => {
+                    const playerData = snapshot.val();
+
+                    firebaseStorage.ref('players')
+                        .child(playerData.image).getDownloadURL()
+                            .then( url => {
+                                this.updateFields(playerData, playerId, 'Edit player', url);
+                            }).catch( e => {
+                                this.updateFields({
+                                    ...playerData,
+                                    image:''
+                                }, playerId, 'Edit player', '');
+                            });
+                })
         }
+    }
+
+    successForm= (message) => {
+        this.setState({
+            formSuccess: message
+        });
+        setTimeout(() => {
+            this.setState({ formSuccess: '' });
+            this.props.history.push('/admin_players');
+        }, 2000)
     }
 
     onFormSubmit = (event) => {
@@ -114,18 +153,38 @@ class AddEditPlayers extends Component {
         }
 
         if ( formIsValid ) {
-            //submit form
+            if ( this.state.formType === 'Edit player') {
+                database.ref(`players/${this.state.playerId}`)
+                    .update(dataToSubmit).then(() => {
+                        this.successForm('Updated successfully!');
+                    }).catch(e => {
+                        this.setState({ formError: true });
+                    });
+
+            } else {
+                firebasePlayers.push(dataToSubmit).then(() => {
+
+                    this.props.history.push('/admin_players');
+                }).catch(e => {
+                    this.setState({ formError: true });
+                });
+            }
 
         } else {
             this.setState({ formError: true });
         }
     };
 
-    onFormUpdate = (event, id) => {
+    onFormUpdate = (event, id, content='') => {
         const newFormData = {...this.state.formData};
         const newElement = newFormData[id];
-        const value = event.target.value;
-        newElement.value = value;
+
+        if ( content == '' ) {
+            newElement.value = event.target.value;
+        } else {
+            newElement.value = content;
+        }
+
         let validData = validate(newElement);
         newElement.valid = validData[0];
         newElement.validationMessage = validData[1];
@@ -139,11 +198,17 @@ class AddEditPlayers extends Component {
     };
 
     resetImage = () => {
-
+        const newFormData = {...this.state.formData};
+        newFormData['image'].value = '';
+        newFormData['image'].valid = false;
+        this.setState({
+            defaultImg: '',
+            formData: newFormData
+        });
     };
 
     storeFilename = (filename) => {
-
+        this.onFormUpdate(null, 'image', filename)
     };
 
     render() {
@@ -161,7 +226,7 @@ class AddEditPlayers extends Component {
                                 defaultImg={this.state.defaultImg}
                                 defaultImgName={this.state.formData.image.value}
                                 resetImage={() => this.resetImage()}
-                                filename={(filename) => storeFilename(filename)}
+                                filename={(filename) => this.storeFilename(filename)}
                             />
                             <FormField
                                 id={'name'}
@@ -199,7 +264,7 @@ class AddEditPlayers extends Component {
                             }
 
                             <div className="admin_submit">
-                                <button type="submit">{this.state.formType}</button>
+                                <button type="submit" onClick={(e) => this.onFormSubmit(e)}>{this.state.formType}</button>
                             </div>
 
                         </form>
