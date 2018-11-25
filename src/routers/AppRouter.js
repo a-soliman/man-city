@@ -10,6 +10,7 @@ import Home from '../components/Home/Home';
 import LoginPage from '../components/LoginPage';
 
 import Team from '../components/theTeam/Team';
+import TheMatches from '../components/theMatches';
 
 /* Admin routes */
 import DashboardPage from '../components/admin/DashboardPage';
@@ -41,6 +42,7 @@ const AppRouter = () => (
         <PrivateRoute path="/admin_matches/edit_match/:id" component={AddEditMatch} />
         <PrivateRoute path="/admin_matches" component={Matches} />
         <PublicRoute path="/the_team" component={Team} />
+        <PublicRoute path="/the_matches" component={TheMatches} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
