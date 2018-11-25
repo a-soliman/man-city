@@ -56,7 +56,7 @@ class HomeCards extends React.Component {
                                 number="30"
                                 name="Nicolas"
                                 lastname="Otamendi"
-                                bck={`url(/images/players/Otamendi.png)`}
+                                bck={'/images/players/Otamendi.png'}
                             />
                         </div>
                     );
